@@ -13,7 +13,7 @@ import io
 from typing import List, Optional
 from pydantic import BaseModel
 from fastapi import FastAPI, UploadFile, File, HTTPException
-from fastapi.middleware.cors import CORSMiddleware  # The correct path
+from fastapi.middleware.cors import CORSMiddleware  
 
 sys.path.insert(0, os.path.dirname(__file__))
 from pipeline import Layer1Pipeline
