@@ -1,0 +1,602 @@
+[
+  {
+    "event_id": "EVT-000000",
+    "customer_id": "CUST-00409",
+    "event_type": "call_drop",
+    "timestamp": "2026-04-26T08:27:53.352575",
+    "metadata": {
+      "tenure": 31,
+      "monthly_charges": 29.92,
+      "contract": "One year",
+      "churn_label": "No"
+    }
+  },
+  {
+    "event_id": "EVT-000001",
+    "customer_id": "CUST-00177",
+    "event_type": "plan_downgrade",
+    "timestamp": "2026-04-26T08:27:53.352851",
+    "metadata": {
+      "tenure": 69,
+      "monthly_charges": 111.81,
+      "contract": "Month-to-month",
+      "churn_label": "Yes"
+    }
+  },
+  {
+    "event_id": "EVT-000002",
+    "customer_id": "CUST-00039",
+    "event_type": "call_drop",
+    "timestamp": "2026-04-26T08:27:53.352983",
+    "metadata": {
+      "tenure": 35,
+      "monthly_charges": 110.07,
+      "contract": "Month-to-month",
+      "churn_label": "Yes"
+    }
+  },
+  {
+    "event_id": "EVT-000003",
+    "customer_id": "CUST-00056",
+    "event_type": "data_usage_drop",
+    "timestamp": "2026-04-26T08:27:53.353090",
+    "metadata": {
+      "tenure": 35,
+      "monthly_charges": 69.24,
+      "contract": "Month-to-month",
+      "churn_label": "No"
+    }
+  },
+  {
+    "event_id": "EVT-000004",
+    "customer_id": "CUST-00388",
+    "event_type": "plan_downgrade",
+    "timestamp": "2026-04-26T08:27:53.353196",
+    "metadata": {
+      "tenure": 35,
+      "monthly_charges": 110.05,
+      "contract": "Two year",
+      "churn_label": "No"
+    }
+  },
+  {
+    "event_id": "EVT-000005",
+    "customer_id": "CUST-00286",
+    "event_type": "service_complaint",
+    "timestamp": "2026-04-26T08:27:53.353332",
+    "metadata": {
+      "tenure": 61,
+      "monthly_charges": 114.73,
+      "contract": "Month-to-month",
+      "churn_label": "Yes"
+    }
+  },
+  {
+    "event_id": "EVT-000006",
+    "customer_id": "CUST-00333",
+    "event_type": "service_complaint",
+    "timestamp": "2026-04-26T08:27:53.353441",
+    "metadata": {
+      "tenure": 9,
+      "monthly_charges": 81.53,
+      "contract": "Month-to-month",
+      "churn_label": "Yes"
+    }
+  },
+  {
+    "event_id": "EVT-000007",
+    "customer_id": "CUST-00343",
+    "event_type": "service_complaint",
+    "timestamp": "2026-04-26T08:27:53.353535",
+    "metadata": {
+      "tenure": 16,
+      "monthly_charges": 89.92,
+      "contract": "One year",
+      "churn_label": "No"
+    }
+  },
+  {
+    "event_id": "EVT-000008",
+    "customer_id": "CUST-00308",
+    "event_type": "data_usage_drop",
+    "timestamp": "2026-04-26T08:27:53.353640",
+    "metadata": {
+      "tenure": 10,
+      "monthly_charges": 91.13,
+      "contract": "One year",
+      "churn_label": "Yes"
+    }
+  },
+  {
+    "event_id": "EVT-000009",
+    "customer_id": "CUST-00477",
+    "event_type": "call_drop",
+    "timestamp": "2026-04-26T08:27:53.353872",
+    "metadata": {
+      "tenure": 55,
+      "monthly_charges": 93.65,
+      "contract": "Month-to-month",
+      "churn_label": "Yes"
+    }
+  },
+  {
+    "event_id": "EVT-000010",
+    "customer_id": "CUST-00058",
+    "event_type": "service_complaint",
+    "timestamp": "2026-04-26T08:27:53.353983",
+    "metadata": {
+      "tenure": 6,
+      "monthly_charges": 55.48,
+      "contract": "Month-to-month",
+      "churn_label": "Yes"
+    }
+  },
+  {
+    "event_id": "EVT-000011",
+    "customer_id": "CUST-00103",
+    "event_type": "service_complaint",
+    "timestamp": "2026-04-26T08:27:53.354100",
+    "metadata": {
+      "tenure": 24,
+      "monthly_charges": 47.14,
+      "contract": "Month-to-month",
+      "churn_label": "No"
+    }
+  },
+  {
+    "event_id": "EVT-000012",
+    "customer_id": "CUST-00007",
+    "event_type": "plan_upgrade",
+    "timestamp": "2026-04-26T08:27:53.354233",
+    "metadata": {
+      "tenure": 11,
+      "monthly_charges": 19.07,
+      "contract": "One year",
+      "churn_label": "No"
+    }
+  },
+  {
+    "event_id": "EVT-000013",
+    "customer_id": "CUST-00055",
+    "event_type": "support_ticket",
+    "timestamp": "2026-04-26T08:27:53.354351",
+    "metadata": {
+      "tenure": 55,
+      "monthly_charges": 29.91,
+      "contract": "One year",
+      "churn_label": "No"
+    }
+  },
+  {
+    "event_id": "EVT-000014",
+    "customer_id": "CUST-00362",
+    "event_type": "data_usage_drop",
+    "timestamp": "2026-04-26T08:27:53.354453",
+    "metadata": {
+      "tenure": 30,
+      "monthly_charges": 37.2,
+      "contract": "One year",
+      "churn_label": "No"
+    }
+  },
+  {
+    "event_id": "EVT-000015",
+    "customer_id": "CUST-00240",
+    "event_type": "call_drop",
+    "timestamp": "2026-04-26T08:27:53.354567",
+    "metadata": {
+      "tenure": 20,
+      "monthly_charges": 113.21,
+      "contract": "Month-to-month",
+      "churn_label": "Yes"
+    }
+  },
+  {
+    "event_id": "EVT-000016",
+    "customer_id": "CUST-00233",
+    "event_type": "app_login",
+    "timestamp": "2026-04-26T08:27:53.354682",
+    "metadata": {
+      "tenure": 51,
+      "monthly_charges": 37.55,
+      "contract": "Month-to-month",
+      "churn_label": "No"
+    }
+  },
+  {
+    "event_id": "EVT-000017",
+    "customer_id": "CUST-00493",
+    "event_type": "plan_downgrade",
+    "timestamp": "2026-04-26T08:27:53.354800",
+    "metadata": {
+      "tenure": 44,
+      "monthly_charges": 21.44,
+      "contract": "Month-to-month",
+      "churn_label": "No"
+    }
+  },
+  {
+    "event_id": "EVT-000018",
+    "customer_id": "CUST-00439",
+    "event_type": "support_ticket",
+    "timestamp": "2026-04-26T08:27:53.354921",
+    "metadata": {
+      "tenure": 60,
+      "monthly_charges": 46.19,
+      "contract": "Month-to-month",
+      "churn_label": "No"
+    }
+  },
+  {
+    "event_id": "EVT-000019",
+    "customer_id": "CUST-00292",
+    "event_type": "call_drop",
+    "timestamp": "2026-04-26T08:27:53.355015",
+    "metadata": {
+      "tenure": 54,
+      "monthly_charges": 70.5,
+      "contract": "Two year",
+      "churn_label": "No"
+    }
+  },
+  {
+    "event_id": "EVT-000020",
+    "customer_id": "CUST-00152",
+    "event_type": "payment_failure",
+    "timestamp": "2026-04-26T08:27:53.355111",
+    "metadata": {
+      "tenure": 21,
+      "monthly_charges": 82.55,
+      "contract": "Month-to-month",
+      "churn_label": "Yes"
+    }
+  },
+  {
+    "event_id": "EVT-000021",
+    "customer_id": "CUST-00141",
+    "event_type": "payment_failure",
+    "timestamp": "2026-04-26T08:27:53.355225",
+    "metadata": {
+      "tenure": 66,
+      "monthly_charges": 46.9,
+      "contract": "Month-to-month",
+      "churn_label": "Yes"
+    }
+  },
+  {
+    "event_id": "EVT-000022",
+    "customer_id": "CUST-00284",
+    "event_type": "service_complaint",
+    "timestamp": "2026-04-26T08:27:53.355346",
+    "metadata": {
+      "tenure": 62,
+      "monthly_charges": 66.26,
+      "contract": "Two year",
+      "churn_label": "No"
+    }
+  },
+  {
+    "event_id": "EVT-000023",
+    "customer_id": "CUST-00411",
+    "event_type": "call_drop",
+    "timestamp": "2026-04-26T08:27:53.355445",
+    "metadata": {
+      "tenure": 45,
+      "monthly_charges": 23.27,
+      "contract": "Month-to-month",
+      "churn_label": "Yes"
+    }
+  },
+  {
+    "event_id": "EVT-000024",
+    "customer_id": "CUST-00276",
+    "event_type": "app_login",
+    "timestamp": "2026-04-26T08:27:53.355539",
+    "metadata": {
+      "tenure": 3,
+      "monthly_charges": 53.7,
+      "contract": "One year",
+      "churn_label": "No"
+    }
+  },
+  {
+    "event_id": "EVT-000025",
+    "customer_id": "CUST-00140",
+    "event_type": "service_complaint",
+    "timestamp": "2026-04-26T08:27:53.355649",
+    "metadata": {
+      "tenure": 49,
+      "monthly_charges": 46.42,
+      "contract": "Month-to-month",
+      "churn_label": "Yes"
+    }
+  },
+  {
+    "event_id": "EVT-000026",
+    "customer_id": "CUST-00153",
+    "event_type": "plan_downgrade",
+    "timestamp": "2026-04-26T08:27:53.355750",
+    "metadata": {
+      "tenure": 43,
+      "monthly_charges": 33.58,
+      "contract": "Two year",
+      "churn_label": "No"
+    }
+  },
+  {
+    "event_id": "EVT-000027",
+    "customer_id": "CUST-00085",
+    "event_type": "plan_downgrade",
+    "timestamp": "2026-04-26T08:27:53.355842",
+    "metadata": {
+      "tenure": 18,
+      "monthly_charges": 117.21,
+      "contract": "Two year",
+      "churn_label": "No"
+    }
+  },
+  {
+    "event_id": "EVT-000028",
+    "customer_id": "CUST-00031",
+    "event_type": "payment_failure",
+    "timestamp": "2026-04-26T08:27:53.355959",
+    "metadata": {
+      "tenure": 67,
+      "monthly_charges": 63.8,
+      "contract": "Month-to-month",
+      "churn_label": "Yes"
+    }
+  },
+  {
+    "event_id": "EVT-000029",
+    "customer_id": "CUST-00363",
+    "event_type": "plan_downgrade",
+    "timestamp": "2026-04-26T08:27:53.356064",
+    "metadata": {
+      "tenure": 10,
+      "monthly_charges": 84.67,
+      "contract": "One year",
+      "churn_label": "Yes"
+    }
+  },
+  {
+    "event_id": "EVT-000030",
+    "customer_id": "CUST-00156",
+    "event_type": "payment_failure",
+    "timestamp": "2026-04-26T08:27:53.356160",
+    "metadata": {
+      "tenure": 68,
+      "monthly_charges": 55.74,
+      "contract": "Month-to-month",
+      "churn_label": "No"
+    }
+  },
+  {
+    "event_id": "EVT-000031",
+    "customer_id": "CUST-00345",
+    "event_type": "payment_failure",
+    "timestamp": "2026-04-26T08:27:53.356285",
+    "metadata": {
+      "tenure": 44,
+      "monthly_charges": 70.76,
+      "contract": "Two year",
+      "churn_label": "No"
+    }
+  },
+  {
+    "event_id": "EVT-000032",
+    "customer_id": "CUST-00099",
+    "event_type": "service_complaint",
+    "timestamp": "2026-04-26T08:27:53.356386",
+    "metadata": {
+      "tenure": 31,
+      "monthly_charges": 41.36,
+      "contract": "Month-to-month",
+      "churn_label": "Yes"
+    }
+  },
+  {
+    "event_id": "EVT-000033",
+    "customer_id": "CUST-00062",
+    "event_type": "plan_downgrade",
+    "timestamp": "2026-04-26T08:27:53.356478",
+    "metadata": {
+      "tenure": 44,
+      "monthly_charges": 21.56,
+      "contract": "Two year",
+      "churn_label": "No"
+    }
+  },
+  {
+    "event_id": "EVT-000034",
+    "customer_id": "CUST-00167",
+    "event_type": "plan_downgrade",
+    "timestamp": "2026-04-26T08:27:53.356567",
+    "metadata": {
+      "tenure": 11,
+      "monthly_charges": 32.12,
+      "contract": "One year",
+      "churn_label": "No"
+    }
+  },
+  {
+    "event_id": "EVT-000035",
+    "customer_id": "CUST-00119",
+    "event_type": "app_login",
+    "timestamp": "2026-04-26T08:27:53.356672",
+    "metadata": {
+      "tenure": 31,
+      "monthly_charges": 81.49,
+      "contract": "One year",
+      "churn_label": "No"
+    }
+  },
+  {
+    "event_id": "EVT-000036",
+    "customer_id": "CUST-00086",
+    "event_type": "call_drop",
+    "timestamp": "2026-04-26T08:27:53.356765",
+    "metadata": {
+      "tenure": 35,
+      "monthly_charges": 103.75,
+      "contract": "Month-to-month",
+      "churn_label": "Yes"
+    }
+  },
+  {
+    "event_id": "EVT-000037",
+    "customer_id": "CUST-00052",
+    "event_type": "call_drop",
+    "timestamp": "2026-04-26T08:27:53.356858",
+    "metadata": {
+      "tenure": 41,
+      "monthly_charges": 90.4,
+      "contract": "Month-to-month",
+      "churn_label": "Yes"
+    }
+  },
+  {
+    "event_id": "EVT-000038",
+    "customer_id": "CUST-00298",
+    "event_type": "service_complaint",
+    "timestamp": "2026-04-26T08:27:53.356952",
+    "metadata": {
+      "tenure": 57,
+      "monthly_charges": 18.09,
+      "contract": "Month-to-month",
+      "churn_label": "No"
+    }
+  },
+  {
+    "event_id": "EVT-000039",
+    "customer_id": "CUST-00368",
+    "event_type": "data_usage_drop",
+    "timestamp": "2026-04-26T08:27:53.357072",
+    "metadata": {
+      "tenure": 50,
+      "monthly_charges": 51.44,
+      "contract": "Month-to-month",
+      "churn_label": "No"
+    }
+  },
+  {
+    "event_id": "EVT-000040",
+    "customer_id": "CUST-00382",
+    "event_type": "plan_downgrade",
+    "timestamp": "2026-04-26T08:27:53.357172",
+    "metadata": {
+      "tenure": 35,
+      "monthly_charges": 68.24,
+      "contract": "Month-to-month",
+      "churn_label": "Yes"
+    }
+  },
+  {
+    "event_id": "EVT-000041",
+    "customer_id": "CUST-00362",
+    "event_type": "plan_downgrade",
+    "timestamp": "2026-04-26T08:27:53.357295",
+    "metadata": {
+      "tenure": 30,
+      "monthly_charges": 37.2,
+      "contract": "One year",
+      "churn_label": "No"
+    }
+  },
+  {
+    "event_id": "EVT-000042",
+    "customer_id": "CUST-00369",
+    "event_type": "plan_upgrade",
+    "timestamp": "2026-04-26T08:27:53.357392",
+    "metadata": {
+      "tenure": 57,
+      "monthly_charges": 69.93,
+      "contract": "One year",
+      "churn_label": "No"
+    }
+  },
+  {
+    "event_id": "EVT-000043",
+    "customer_id": "CUST-00123",
+    "event_type": "payment_failure",
+    "timestamp": "2026-04-26T08:27:53.357489",
+    "metadata": {
+      "tenure": 2,
+      "monthly_charges": 37.01,
+      "contract": "Month-to-month",
+      "churn_label": "Yes"
+    }
+  },
+  {
+    "event_id": "EVT-000044",
+    "customer_id": "CUST-00020",
+    "event_type": "plan_upgrade",
+    "timestamp": "2026-04-26T08:27:53.357581",
+    "metadata": {
+      "tenure": 46,
+      "monthly_charges": 43.0,
+      "contract": "Month-to-month",
+      "churn_label": "No"
+    }
+  },
+  {
+    "event_id": "EVT-000045",
+    "customer_id": "CUST-00145",
+    "event_type": "plan_upgrade",
+    "timestamp": "2026-04-26T08:27:53.357693",
+    "metadata": {
+      "tenure": 69,
+      "monthly_charges": 33.99,
+      "contract": "Month-to-month",
+      "churn_label": "No"
+    }
+  },
+  {
+    "event_id": "EVT-000046",
+    "customer_id": "CUST-00019",
+    "event_type": "data_usage_drop",
+    "timestamp": "2026-04-26T08:27:53.357788",
+    "metadata": {
+      "tenure": 22,
+      "monthly_charges": 116.27,
+      "contract": "Month-to-month",
+      "churn_label": "Yes"
+    }
+  },
+  {
+    "event_id": "EVT-000047",
+    "customer_id": "CUST-00349",
+    "event_type": "call_drop",
+    "timestamp": "2026-04-26T08:27:53.357882",
+    "metadata": {
+      "tenure": 64,
+      "monthly_charges": 30.13,
+      "contract": "Two year",
+      "churn_label": "No"
+    }
+  },
+  {
+    "event_id": "EVT-000048",
+    "customer_id": "CUST-00100",
+    "event_type": "service_complaint",
+    "timestamp": "2026-04-26T08:27:53.357974",
+    "metadata": {
+      "tenure": 10,
+      "monthly_charges": 24.82,
+      "contract": "Month-to-month",
+      "churn_label": "Yes"
+    }
+  },
+  {
+    "event_id": "EVT-000049",
+    "customer_id": "CUST-00444",
+    "event_type": "call_drop",
+    "timestamp": "2026-04-26T08:27:53.358069",
+    "metadata": {
+      "tenure": 22,
+      "monthly_charges": 109.28,
+      "contract": "Month-to-month",
+      "churn_label": "Yes"
+    }
+  }
+]

@@ -1,0 +1,30 @@
+version: "3.9"
+
+services:
+  churn-api:
+    build: .
+    container_name: churnguard-api
+    ports:
+      - "8002:8002"
+    volumes:
+      - ./data:/app/data
+      - ./backend/models:/app/backend/models
+    environment:
+      - PYTHONUNBUFFERED=1
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "python", "-c", "import urllib.request; urllib.request.urlopen('http://localhost:8002/')"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+
+  frontend:
+    image: nginx:alpine
+    container_name: churnguard-frontend
+    ports:
+      - "3000:80"
+    volumes:
+      - ./frontend.html:/usr/share/nginx/html/index.html:ro
+    depends_on:
+      - churn-api
+    restart: unless-stopped

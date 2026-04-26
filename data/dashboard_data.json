@@ -1,0 +1,446 @@
+{
+  "summary": {
+    "mode": "csv_batch",
+    "total_records": 500,
+    "columns": [
+      "customerID",
+      "gender",
+      "SeniorCitizen",
+      "Partner",
+      "Dependents",
+      "tenure",
+      "PhoneService",
+      "MultipleLines",
+      "InternetService",
+      "Contract",
+      "PaperlessBilling",
+      "PaymentMethod",
+      "MonthlyCharges",
+      "TotalCharges",
+      "Churn"
+    ],
+    "missing_before": {
+      "customerID": 0,
+      "gender": 0,
+      "SeniorCitizen": 0,
+      "Partner": 0,
+      "Dependents": 0,
+      "tenure": 0,
+      "PhoneService": 0,
+      "MultipleLines": 0,
+      "InternetService": 0,
+      "Contract": 0,
+      "PaperlessBilling": 0,
+      "PaymentMethod": 0,
+      "MonthlyCharges": 0,
+      "TotalCharges": 0,
+      "Churn": 0
+    },
+    "churn_distribution": {
+      "No": 313,
+      "Yes": 187
+    },
+    "churn_rate": 37.4,
+    "missing_after": {
+      "gender": 0,
+      "SeniorCitizen": 0,
+      "Partner": 0,
+      "Dependents": 0,
+      "tenure": 0,
+      "PhoneService": 0,
+      "MultipleLines": 0,
+      "InternetService": 0,
+      "Contract": 0,
+      "PaperlessBilling": 0,
+      "PaymentMethod": 0,
+      "MonthlyCharges": 0,
+      "TotalCharges": 0
+    },
+    "feature_names": [
+      "gender",
+      "SeniorCitizen",
+      "Partner",
+      "Dependents",
+      "tenure",
+      "PhoneService",
+      "MultipleLines",
+      "InternetService",
+      "Contract",
+      "PaperlessBilling",
+      "PaymentMethod",
+      "MonthlyCharges",
+      "TotalCharges"
+    ],
+    "feature_count": 13
+  },
+  "training_report": {
+    "xgboost": {
+      "model": "XGBoost",
+      "accuracy": 0.93,
+      "f1_score": 0.9041,
+      "auc_roc": 0.9867,
+      "precision": 0.9167,
+      "recall": 0.8919,
+      "confusion_matrix": [
+        [
+          60,
+          3
+        ],
+        [
+          4,
+          33
+        ]
+      ]
+    },
+    "mlp": {
+      "model": "MLP",
+      "accuracy": 0.87,
+      "f1_score": 0.8434,
+      "auc_roc": 0.9532,
+      "precision": 0.7609,
+      "recall": 0.9459,
+      "confusion_matrix": [
+        [
+          52,
+          11
+        ],
+        [
+          2,
+          35
+        ]
+      ]
+    },
+    "champion": "xgboost",
+    "cv_auc_mean": 0.9816,
+    "cv_auc_std": 0.0121,
+    "smote_applied": true,
+    "shap_top_features": [
+      {
+        "feature": "Contract",
+        "mean_abs_shap": 2.73358
+      },
+      {
+        "feature": "MonthlyCharges",
+        "mean_abs_shap": 1.74895
+      },
+      {
+        "feature": "InternetService",
+        "mean_abs_shap": 1.02498
+      },
+      {
+        "feature": "tenure",
+        "mean_abs_shap": 0.99416
+      },
+      {
+        "feature": "TotalCharges",
+        "mean_abs_shap": 0.39639
+      },
+      {
+        "feature": "MultipleLines",
+        "mean_abs_shap": 0.2751
+      },
+      {
+        "feature": "PaymentMethod",
+        "mean_abs_shap": 0.19824
+      },
+      {
+        "feature": "Dependents",
+        "mean_abs_shap": 0.16479
+      }
+    ],
+    "feature_names": [
+      "gender",
+      "SeniorCitizen",
+      "Partner",
+      "Dependents",
+      "tenure",
+      "PhoneService",
+      "MultipleLines",
+      "InternetService",
+      "Contract",
+      "PaperlessBilling",
+      "PaymentMethod",
+      "MonthlyCharges",
+      "TotalCharges"
+    ]
+  },
+  "batch_results": {
+    "total_scored": 500,
+    "churn_predicted_count": 186,
+    "churn_rate": 37.2,
+    "at_risk_sample": [
+      {
+        "churn_probability": 0.8434,
+        "churn_predicted": 1,
+        "churn_label": "CHURN",
+        "model_used": "xgboost",
+        "risk_tier": "HIGH",
+        "customer_id": "CUST-00003"
+      },
+      {
+        "churn_probability": 0.9417,
+        "churn_predicted": 1,
+        "churn_label": "CHURN",
+        "model_used": "xgboost",
+        "risk_tier": "HIGH",
+        "customer_id": "CUST-00011"
+      },
+      {
+        "churn_probability": 0.9927,
+        "churn_predicted": 1,
+        "churn_label": "CHURN",
+        "model_used": "xgboost",
+        "risk_tier": "HIGH",
+        "customer_id": "CUST-00019"
+      },
+      {
+        "churn_probability": 0.9354,
+        "churn_predicted": 1,
+        "churn_label": "CHURN",
+        "model_used": "xgboost",
+        "risk_tier": "HIGH",
+        "customer_id": "CUST-00023"
+      },
+      {
+        "churn_probability": 0.9605,
+        "churn_predicted": 1,
+        "churn_label": "CHURN",
+        "model_used": "xgboost",
+        "risk_tier": "HIGH",
+        "customer_id": "CUST-00025"
+      },
+      {
+        "churn_probability": 0.9906,
+        "churn_predicted": 1,
+        "churn_label": "CHURN",
+        "model_used": "xgboost",
+        "risk_tier": "HIGH",
+        "customer_id": "CUST-00026"
+      },
+      {
+        "churn_probability": 0.9017,
+        "churn_predicted": 1,
+        "churn_label": "CHURN",
+        "model_used": "xgboost",
+        "risk_tier": "HIGH",
+        "customer_id": "CUST-00031"
+      },
+      {
+        "churn_probability": 0.9751,
+        "churn_predicted": 1,
+        "churn_label": "CHURN",
+        "model_used": "xgboost",
+        "risk_tier": "HIGH",
+        "customer_id": "CUST-00036"
+      },
+      {
+        "churn_probability": 0.9804,
+        "churn_predicted": 1,
+        "churn_label": "CHURN",
+        "model_used": "xgboost",
+        "risk_tier": "HIGH",
+        "customer_id": "CUST-00037"
+      },
+      {
+        "churn_probability": 0.9984,
+        "churn_predicted": 1,
+        "churn_label": "CHURN",
+        "model_used": "xgboost",
+        "risk_tier": "HIGH",
+        "customer_id": "CUST-00039"
+      }
+    ]
+  },
+  "sample_customers": [
+    {
+      "customer_id": "CUST-00001",
+      "prediction": {
+        "churn_probability": 0.004,
+        "churn_predicted": 0,
+        "churn_label": "RETAIN",
+        "model_used": "xgboost",
+        "risk_tier": "MINIMAL",
+        "customer_id": "CUST-00001"
+      },
+      "explanation": [
+        {
+          "feature": "Contract",
+          "shap_value": -4.22116,
+          "direction": "decreases_churn"
+        },
+        {
+          "feature": "MonthlyCharges",
+          "shap_value": -1.09144,
+          "direction": "decreases_churn"
+        },
+        {
+          "feature": "tenure",
+          "shap_value": -0.70813,
+          "direction": "decreases_churn"
+        },
+        {
+          "feature": "InternetService",
+          "shap_value": 0.60483,
+          "direction": "increases_churn"
+        },
+        {
+          "feature": "MultipleLines",
+          "shap_value": -0.51299,
+          "direction": "decreases_churn"
+        }
+      ]
+    },
+    {
+      "customer_id": "CUST-00002",
+      "prediction": {
+        "churn_probability": 0.0147,
+        "churn_predicted": 0,
+        "churn_label": "RETAIN",
+        "model_used": "xgboost",
+        "risk_tier": "MINIMAL",
+        "customer_id": "CUST-00002"
+      },
+      "explanation": [
+        {
+          "feature": "Contract",
+          "shap_value": -4.29079,
+          "direction": "decreases_churn"
+        },
+        {
+          "feature": "MonthlyCharges",
+          "shap_value": 2.25779,
+          "direction": "increases_churn"
+        },
+        {
+          "feature": "tenure",
+          "shap_value": -1.29539,
+          "direction": "decreases_churn"
+        },
+        {
+          "feature": "InternetService",
+          "shap_value": -0.54484,
+          "direction": "decreases_churn"
+        },
+        {
+          "feature": "TotalCharges",
+          "shap_value": -0.42786,
+          "direction": "decreases_churn"
+        }
+      ]
+    },
+    {
+      "customer_id": "CUST-00003",
+      "prediction": {
+        "churn_probability": 0.8434,
+        "churn_predicted": 1,
+        "churn_label": "CHURN",
+        "model_used": "xgboost",
+        "risk_tier": "HIGH",
+        "customer_id": "CUST-00003"
+      },
+      "explanation": [
+        {
+          "feature": "Contract",
+          "shap_value": 1.59669,
+          "direction": "increases_churn"
+        },
+        {
+          "feature": "InternetService",
+          "shap_value": 0.91102,
+          "direction": "increases_churn"
+        },
+        {
+          "feature": "MonthlyCharges",
+          "shap_value": -0.76714,
+          "direction": "decreases_churn"
+        },
+        {
+          "feature": "PaymentMethod",
+          "shap_value": -0.57265,
+          "direction": "decreases_churn"
+        },
+        {
+          "feature": "MultipleLines",
+          "shap_value": 0.40253,
+          "direction": "increases_churn"
+        }
+      ]
+    },
+    {
+      "customer_id": "CUST-00004",
+      "prediction": {
+        "churn_probability": 0.0356,
+        "churn_predicted": 0,
+        "churn_label": "RETAIN",
+        "model_used": "xgboost",
+        "risk_tier": "MINIMAL",
+        "customer_id": "CUST-00004"
+      },
+      "explanation": [
+        {
+          "feature": "Contract",
+          "shap_value": -4.82177,
+          "direction": "decreases_churn"
+        },
+        {
+          "feature": "MonthlyCharges",
+          "shap_value": 1.92122,
+          "direction": "increases_churn"
+        },
+        {
+          "feature": "tenure",
+          "shap_value": -1.09731,
+          "direction": "decreases_churn"
+        },
+        {
+          "feature": "InternetService",
+          "shap_value": 0.42615,
+          "direction": "increases_churn"
+        },
+        {
+          "feature": "TotalCharges",
+          "shap_value": -0.23521,
+          "direction": "decreases_churn"
+        }
+      ]
+    },
+    {
+      "customer_id": "CUST-00005",
+      "prediction": {
+        "churn_probability": 0.0281,
+        "churn_predicted": 0,
+        "churn_label": "RETAIN",
+        "model_used": "xgboost",
+        "risk_tier": "MINIMAL",
+        "customer_id": "CUST-00005"
+      },
+      "explanation": [
+        {
+          "feature": "InternetService",
+          "shap_value": -2.30134,
+          "direction": "decreases_churn"
+        },
+        {
+          "feature": "MonthlyCharges",
+          "shap_value": -1.54963,
+          "direction": "decreases_churn"
+        },
+        {
+          "feature": "Contract",
+          "shap_value": 1.21018,
+          "direction": "increases_churn"
+        },
+        {
+          "feature": "tenure",
+          "shap_value": -0.86503,
+          "direction": "decreases_churn"
+        },
+        {
+          "feature": "TotalCharges",
+          "shap_value": -0.80014,
+          "direction": "decreases_churn"
+        }
+      ]
+    }
+  ]
+}

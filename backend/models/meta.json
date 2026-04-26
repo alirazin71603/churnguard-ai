@@ -1,0 +1,169 @@
+{
+  "champion": "xgboost",
+  "feature_names": [
+    "gender",
+    "SeniorCitizen",
+    "Partner",
+    "Dependents",
+    "tenure",
+    "PhoneService",
+    "MultipleLines",
+    "InternetService",
+    "Contract",
+    "PaperlessBilling",
+    "PaymentMethod",
+    "MonthlyCharges",
+    "TotalCharges"
+  ],
+  "training_report": {
+    "smote_applied": true,
+    "train_size": 500,
+    "test_size": 100,
+    "class_distribution_original": {
+      "no_churn": 250,
+      "churn": 150
+    },
+    "xgboost": {
+      "model": "XGBoost",
+      "accuracy": 0.93,
+      "f1_score": 0.9041,
+      "auc_roc": 0.9867,
+      "precision": 0.9167,
+      "recall": 0.8919,
+      "confusion_matrix": [
+        [
+          60,
+          3
+        ],
+        [
+          4,
+          33
+        ]
+      ],
+      "classification_report": {
+        "No Churn": {
+          "precision": 0.9375,
+          "recall": 0.9523809523809523,
+          "f1-score": 0.9448818897637795,
+          "support": 63.0
+        },
+        "Churn": {
+          "precision": 0.9166666666666666,
+          "recall": 0.8918918918918919,
+          "f1-score": 0.9041095890410958,
+          "support": 37.0
+        },
+        "accuracy": 0.93,
+        "macro avg": {
+          "precision": 0.9270833333333333,
+          "recall": 0.9221364221364221,
+          "f1-score": 0.9244957394024377,
+          "support": 100.0
+        },
+        "weighted avg": {
+          "precision": 0.9297916666666666,
+          "recall": 0.93,
+          "f1-score": 0.9297961384963866,
+          "support": 100.0
+        }
+      }
+    },
+    "mlp": {
+      "model": "MLP",
+      "accuracy": 0.87,
+      "f1_score": 0.8434,
+      "auc_roc": 0.9532,
+      "precision": 0.7609,
+      "recall": 0.9459,
+      "confusion_matrix": [
+        [
+          52,
+          11
+        ],
+        [
+          2,
+          35
+        ]
+      ],
+      "classification_report": {
+        "No Churn": {
+          "precision": 0.9629629629629629,
+          "recall": 0.8253968253968254,
+          "f1-score": 0.8888888888888888,
+          "support": 63.0
+        },
+        "Churn": {
+          "precision": 0.7608695652173914,
+          "recall": 0.9459459459459459,
+          "f1-score": 0.8433734939759037,
+          "support": 37.0
+        },
+        "accuracy": 0.87,
+        "macro avg": {
+          "precision": 0.8619162640901772,
+          "recall": 0.8856713856713856,
+          "f1-score": 0.8661311914323963,
+          "support": 100.0
+        },
+        "weighted avg": {
+          "precision": 0.8881884057971015,
+          "recall": 0.87,
+          "f1-score": 0.8720481927710844,
+          "support": 100.0
+        }
+      }
+    },
+    "champion": "xgboost",
+    "champion_cv_auc_mean": 0.9816,
+    "champion_cv_auc_std": 0.0121,
+    "shap_top_features": [
+      {
+        "feature": "Contract",
+        "mean_abs_shap": 2.73358
+      },
+      {
+        "feature": "MonthlyCharges",
+        "mean_abs_shap": 1.74895
+      },
+      {
+        "feature": "InternetService",
+        "mean_abs_shap": 1.02498
+      },
+      {
+        "feature": "tenure",
+        "mean_abs_shap": 0.99416
+      },
+      {
+        "feature": "TotalCharges",
+        "mean_abs_shap": 0.39639
+      },
+      {
+        "feature": "MultipleLines",
+        "mean_abs_shap": 0.2751
+      },
+      {
+        "feature": "PaymentMethod",
+        "mean_abs_shap": 0.19824
+      },
+      {
+        "feature": "Dependents",
+        "mean_abs_shap": 0.16479
+      }
+    ],
+    "feature_names": [
+      "gender",
+      "SeniorCitizen",
+      "Partner",
+      "Dependents",
+      "tenure",
+      "PhoneService",
+      "MultipleLines",
+      "InternetService",
+      "Contract",
+      "PaperlessBilling",
+      "PaymentMethod",
+      "MonthlyCharges",
+      "TotalCharges"
+    ]
+  }
+}

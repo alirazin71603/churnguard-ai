@@ -1,0 +1,776 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ChurnGuard AI — Customer Retention Platform</title>
+<style>
+  :root {
+    --bg: #0f1117;
+    --surface: #1a1d27;
+    --surface2: #222635;
+    --border: rgba(255,255,255,0.08);
+    --border2: rgba(255,255,255,0.14);
+    --text: #e8eaf0;
+    --text2: #8b90a7;
+    --text3: #555a72;
+    --blue: #4f7cff;
+    --blue-dim: rgba(79,124,255,0.12);
+    --red: #ff5c5c;
+    --red-dim: rgba(255,92,92,0.12);
+    --green: #3ecf8e;
+    --green-dim: rgba(62,207,142,0.12);
+    --amber: #f5a623;
+    --amber-dim: rgba(245,166,35,0.12);
+    --radius: 10px;
+    --radius-sm: 6px;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: 'Inter', system-ui, sans-serif; background: var(--bg); color: var(--text); min-height: 100vh; }
+  @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap');
+
+  /* Layout */
+  .app { display: flex; min-height: 100vh; }
+  .sidebar { width: 220px; background: var(--surface); border-right: 1px solid var(--border); padding: 0; flex-shrink: 0; display: flex; flex-direction: column; }
+  .sidebar-logo { padding: 24px 20px 20px; border-bottom: 1px solid var(--border); }
+  .logo-mark { font-size: 18px; font-weight: 600; color: var(--text); letter-spacing: -0.3px; }
+  .logo-sub { font-size: 11px; color: var(--text3); margin-top: 2px; }
+  .nav { padding: 12px 10px; flex: 1; }
+  .nav-item { display: flex; align-items: center; gap: 10px; padding: 9px 10px; border-radius: var(--radius-sm); font-size: 13px; font-weight: 500; color: var(--text2); cursor: pointer; transition: all 0.15s; margin-bottom: 2px; }
+  .nav-item:hover { background: var(--surface2); color: var(--text); }
+  .nav-item.active { background: var(--blue-dim); color: var(--blue); }
+  .nav-icon { width: 16px; text-align: center; font-size: 14px; }
+  .nav-section { font-size: 10px; font-weight: 600; color: var(--text3); letter-spacing: 0.8px; padding: 14px 10px 6px; text-transform: uppercase; }
+  .status-bar { padding: 14px 16px; border-top: 1px solid var(--border); }
+  .status-dot { width: 7px; height: 7px; border-radius: 50%; background: var(--green); display: inline-block; margin-right: 6px; box-shadow: 0 0 6px var(--green); animation: pulse 2s infinite; }
+  @keyframes pulse { 0%,100%{opacity:1} 50%{opacity:0.5} }
+  .status-text { font-size: 11px; color: var(--text2); }
+
+  /* Main */
+  .main { flex: 1; overflow: auto; }
+  .topnav { height: 56px; border-bottom: 1px solid var(--border); display: flex; align-items: center; padding: 0 28px; gap: 12px; background: var(--surface); position: sticky; top: 0; z-index: 10; }
+  .topnav-title { font-size: 15px; font-weight: 600; color: var(--text); flex: 1; }
+  .content { padding: 28px; }
+
+  /* Cards */
+  .card { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); padding: 20px; }
+  .card-title { font-size: 13px; font-weight: 600; color: var(--text); margin-bottom: 16px; display: flex; align-items: center; gap: 8px; }
+  .card-grid { display: grid; gap: 16px; }
+  .cols-4 { grid-template-columns: repeat(4, 1fr); }
+  .cols-3 { grid-template-columns: repeat(3, 1fr); }
+  .cols-2 { grid-template-columns: 1fr 1fr; }
+  .gap-16 { gap: 16px; }
+
+  /* Metric cards */
+  .metric { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); padding: 18px 20px; }
+  .metric-label { font-size: 11px; font-weight: 500; color: var(--text3); text-transform: uppercase; letter-spacing: 0.6px; margin-bottom: 8px; }
+  .metric-val { font-size: 28px; font-weight: 600; color: var(--text); line-height: 1; }
+  .metric-val.blue { color: var(--blue); }
+  .metric-val.red { color: var(--red); }
+  .metric-val.green { color: var(--green); }
+  .metric-sub { font-size: 11px; color: var(--text3); margin-top: 6px; }
+
+  /* Badges */
+  .badge { display: inline-flex; align-items: center; gap: 4px; font-size: 11px; font-weight: 500; padding: 3px 9px; border-radius: 999px; }
+  .badge-blue { background: var(--blue-dim); color: var(--blue); }
+  .badge-red { background: var(--red-dim); color: var(--red); }
+  .badge-green { background: var(--green-dim); color: var(--green); }
+  .badge-amber { background: var(--amber-dim); color: var(--amber); }
+  .badge-gray { background: rgba(255,255,255,0.06); color: var(--text2); }
+
+  /* Buttons */
+  btn, .btn { display: inline-flex; align-items: center; gap: 7px; font-size: 13px; font-weight: 500; padding: 9px 18px; border-radius: var(--radius-sm); border: 1px solid var(--border2); background: var(--surface2); color: var(--text); cursor: pointer; transition: all 0.15s; }
+  .btn:hover { background: rgba(255,255,255,0.08); border-color: rgba(255,255,255,0.2); }
+  .btn-primary { background: var(--blue); border-color: var(--blue); color: #fff; }
+  .btn-primary:hover { background: #3d68f0; }
+  .btn-danger { background: var(--red-dim); border-color: rgba(255,92,92,0.3); color: var(--red); }
+  .btn-sm { font-size: 11px; padding: 5px 12px; }
+
+  /* Table */
+  .table-wrap { overflow-x: auto; border-radius: var(--radius); border: 1px solid var(--border); }
+  table { width: 100%; border-collapse: collapse; font-size: 13px; }
+  th { text-align: left; font-size: 11px; font-weight: 600; color: var(--text3); text-transform: uppercase; letter-spacing: 0.5px; padding: 12px 16px; border-bottom: 1px solid var(--border); background: var(--surface2); }
+  td { padding: 12px 16px; border-bottom: 1px solid var(--border); color: var(--text); vertical-align: middle; }
+  tr:last-child td { border: none; }
+  tr:hover td { background: rgba(255,255,255,0.02); }
+
+  /* Upload zone */
+  .upload-zone { border: 2px dashed var(--border2); border-radius: var(--radius); padding: 40px; text-align: center; cursor: pointer; transition: all 0.2s; }
+  .upload-zone:hover, .upload-zone.drag { border-color: var(--blue); background: var(--blue-dim); }
+  .upload-icon { font-size: 32px; margin-bottom: 12px; }
+  .upload-text { font-size: 14px; font-weight: 500; color: var(--text); margin-bottom: 6px; }
+  .upload-sub { font-size: 12px; color: var(--text3); }
+  input[type=file] { display: none; }
+
+  /* Progress bar */
+  .prog-track { height: 6px; background: var(--surface2); border-radius: 3px; overflow: hidden; }
+  .prog-fill { height: 100%; background: var(--blue); border-radius: 3px; transition: width 0.4s; }
+
+  /* Stream log */
+  .stream-log { font-family: 'JetBrains Mono', monospace; font-size: 11px; background: var(--bg); border: 1px solid var(--border); border-radius: var(--radius-sm); padding: 12px; height: 240px; overflow-y: auto; color: var(--text2); }
+  .log-line { padding: 3px 0; border-bottom: 1px solid rgba(255,255,255,0.04); display: flex; gap: 10px; }
+  .log-ts { color: var(--text3); flex-shrink: 0; width: 72px; }
+  .log-ev { flex-shrink: 0; width: 160px; }
+  .log-ev.churn { color: var(--red); }
+  .log-ev.normal { color: var(--green); }
+  .log-ev.neutral { color: var(--blue); }
+  .log-trigger { color: var(--amber); font-weight: 500; margin-left: auto; font-size: 10px; }
+
+  /* Misc */
+  .divider { height: 1px; background: var(--border); margin: 20px 0; }
+  .row { display: flex; gap: 16px; }
+  .row > * { flex: 1; min-width: 0; }
+  .section-title { font-size: 20px; font-weight: 600; color: var(--text); margin-bottom: 6px; }
+  .section-sub { font-size: 13px; color: var(--text2); margin-bottom: 24px; }
+  .alert { border-radius: var(--radius-sm); padding: 12px 16px; font-size: 13px; margin-bottom: 12px; display: flex; align-items: flex-start; gap: 10px; }
+  .alert-success { background: var(--green-dim); border: 1px solid rgba(62,207,142,0.3); color: var(--green); }
+  .alert-error { background: var(--red-dim); border: 1px solid rgba(255,92,92,0.3); color: var(--red); }
+  .alert-info { background: var(--blue-dim); border: 1px solid rgba(79,124,255,0.3); color: var(--blue); }
+  .alert-amber { background: var(--amber-dim); border: 1px solid rgba(245,166,35,0.3); color: var(--amber); }
+  .tag { display: inline-block; background: var(--surface2); border: 1px solid var(--border); border-radius: 4px; font-family: 'JetBrains Mono', monospace; font-size: 11px; padding: 2px 7px; color: var(--text2); }
+  .shap-bar { display: flex; align-items: center; gap: 10px; margin-bottom: 10px; }
+  .shap-label { font-size: 12px; color: var(--text2); width: 130px; text-align: right; flex-shrink: 0; }
+  .shap-track { flex: 1; height: 8px; background: var(--surface2); border-radius: 4px; overflow: hidden; }
+  .shap-fill { height: 100%; background: var(--blue); border-radius: 4px; transition: width 0.7s cubic-bezier(.4,0,.2,1); }
+  .shap-val { font-size: 11px; color: var(--text3); width: 40px; font-family: monospace; }
+  .spinner { display: inline-block; width: 14px; height: 14px; border: 2px solid rgba(255,255,255,0.2); border-top-color: var(--blue); border-radius: 50%; animation: spin 0.7s linear infinite; }
+  @keyframes spin { to { transform: rotate(360deg); } }
+  .endpoint-row { display: flex; align-items: center; gap: 10px; padding: 10px 0; border-bottom: 1px solid var(--border); font-size: 13px; }
+  .endpoint-row:last-child { border: none; }
+  .method { font-size: 10px; font-weight: 700; padding: 2px 8px; border-radius: 4px; font-family: monospace; flex-shrink: 0; }
+  .method-get { background: rgba(62,207,142,0.15); color: var(--green); }
+  .method-post { background: rgba(79,124,255,0.15); color: var(--blue); }
+  .endpoint-path { font-family: 'JetBrains Mono', monospace; font-size: 12px; color: var(--text); flex: 1; }
+  .endpoint-desc { font-size: 12px; color: var(--text3); }
+  input[type=text], input[type=number], select, textarea {
+    background: var(--surface2); border: 1px solid var(--border2); border-radius: var(--radius-sm);
+    color: var(--text); font-size: 13px; padding: 9px 12px; width: 100%; outline: none; transition: border 0.15s;
+  }
+  input:focus, select:focus { border-color: var(--blue); }
+  label { font-size: 12px; font-weight: 500; color: var(--text2); display: block; margin-bottom: 6px; }
+  .form-group { margin-bottom: 16px; }
+</style>
+</head>
+<body>
+<div class="app">
+  <!-- Sidebar -->
+  <div class="sidebar">
+    <div class="sidebar-logo">
+      <div class="logo-mark">ChurnGuard AI</div>
+      <div class="logo-sub">Retention Intelligence Platform</div>
+    </div>
+    <nav class="nav">
+      <div class="nav-section">Pipeline</div>
+      <div class="nav-item active" onclick="show('ingest')"><span class="nav-icon">⬆</span>Data ingestion</div>
+      <div class="nav-item" onclick="show('train')"><span class="nav-icon">⚡</span>Train models</div>
+      <div class="nav-section">Analysis</div>
+      <div class="nav-item" onclick="show('predict')"><span class="nav-icon">◎</span>Predict churn</div>
+      <div class="nav-item" onclick="show('stream')"><span class="nav-icon">⟳</span>Kafka stream</div>
+      <div class="nav-item" onclick="show('metrics')"><span class="nav-icon">▦</span>Model metrics</div>
+      <div class="nav-section">System</div>
+      <div class="nav-item" onclick="show('api')"><span class="nav-icon">{}</span>API reference</div>
+    </nav>
+    <div class="status-bar">
+      <div id="sidebarStatus" style="font-size:12px;color:var(--text3)">
+        <span class="status-dot"></span>
+        <span class="status-text" id="statusText">Checking API...</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- Main -->
+  <div class="main">
+    <div class="topnav">
+      <div class="topnav-title" id="pageTitle">Data ingestion</div>
+      <span id="engineBadge" class="badge badge-gray">Engine not trained</span>
+      <span id="apiUrl" class="tag">http://localhost:8002</span>
+    </div>
+    <div class="content">
+
+      <!-- INGEST -->
+      <div id="page-ingest" class="page">
+        <div class="section-title">Data ingestion</div>
+        <div class="section-sub">Upload a CSV or connect a Kafka stream. Any structured dataset with a binary churn label is accepted.</div>
+
+        <div class="row">
+          <div>
+            <div class="card" style="margin-bottom:16px">
+              <div class="card-title">⬆ CSV batch upload</div>
+              <label class="upload-zone" id="dropZone" for="csvFile" ondragover="dragOver(event)" ondragleave="dragLeave(event)" ondrop="handleDrop(event)">
+                <input type="file" id="csvFile" accept=".csv" onchange="handleCsvUpload(event)">
+                <div class="upload-icon">📄</div>
+                <div class="upload-text">Drop CSV here or click to browse</div>
+                <div class="upload-sub">IBM Telco, Bank Churn, or any structured CSV with a Churn column</div>
+              </label>
+              <div id="uploadResult" style="margin-top:14px"></div>
+            </div>
+            <div class="card">
+              <div class="card-title">⟳ Kafka event — single event</div>
+              <div class="form-group">
+                <label>Customer ID</label>
+                <input type="text" id="evCustomer" value="CUST-00001">
+              </div>
+              <div class="form-group">
+                <label>Event type</label>
+                <select id="evType">
+                  <option>payment_failure</option>
+                  <option>service_complaint</option>
+                  <option>plan_downgrade</option>
+                  <option>call_drop</option>
+                  <option>data_usage_drop</option>
+                  <option>app_login</option>
+                  <option>plan_upgrade</option>
+                  <option>support_ticket</option>
+                </select>
+              </div>
+              <button class="btn btn-primary" onclick="sendKafkaEvent()">Send event</button>
+              <div id="kafkaEventResult" style="margin-top:12px"></div>
+            </div>
+          </div>
+          <div>
+            <div class="card">
+              <div class="card-title">Pipeline status</div>
+              <div id="pipelineStatus" style="color:var(--text3);font-size:13px">Loading...</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- TRAIN -->
+      <div id="page-train" class="page" style="display:none">
+        <div class="section-title">Train models</div>
+        <div class="section-sub">Trains XGBoost + MLP on your ingested data. SMOTE handles class imbalance. Champion is selected by AUC-ROC.</div>
+        <div class="row">
+          <div>
+            <div class="card" style="margin-bottom:16px">
+              <div class="card-title">⚡ Launch training</div>
+              <label class="upload-zone" for="trainFile" id="trainDrop">
+                <input type="file" id="trainFile" accept=".csv" onchange="handleTrainUpload(event)">
+                <div class="upload-icon">⚡</div>
+                <div class="upload-text">Upload CSV to train both models</div>
+                <div class="upload-sub">Will run XGBoost + MLP in parallel, then select champion by AUC</div>
+              </label>
+              <div id="trainResult" style="margin-top:14px"></div>
+            </div>
+          </div>
+          <div>
+            <div class="card" id="trainMetrics" style="display:none">
+              <div class="card-title">Training results</div>
+              <div id="trainMetricsContent"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- PREDICT -->
+      <div id="page-predict" class="page" style="display:none">
+        <div class="section-title">Predict churn</div>
+        <div class="section-sub">Score individual customers or run a full batch. Results include SHAP explanations for each prediction.</div>
+        <div class="row" style="margin-bottom:16px">
+          <div class="card">
+            <div class="card-title">Single customer prediction</div>
+            <div class="form-group">
+              <label>Customer ID</label>
+              <input type="text" id="predictCid" value="CUST-00003">
+            </div>
+            <div class="form-group">
+              <label>Model</label>
+              <select id="predictModel">
+                <option value="champion">Champion (auto)</option>
+                <option value="xgboost">XGBoost</option>
+                <option value="mlp">MLP</option>
+              </select>
+            </div>
+            <button class="btn btn-primary" onclick="predictSingle()">Predict</button>
+            <div id="singlePredResult" style="margin-top:14px"></div>
+          </div>
+          <div class="card">
+            <div class="card-title">Batch scoring</div>
+            <p style="font-size:13px;color:var(--text2);margin-bottom:16px">Score all customers in the feature store at once. Returns at-risk list with risk tiers.</p>
+            <button class="btn btn-primary" onclick="batchPredict()"><span id="batchSpinner" style="display:none" class="spinner"></span>Run batch prediction</button>
+            <div id="batchSummary" style="margin-top:14px"></div>
+          </div>
+        </div>
+        <div class="card" id="atRiskCard" style="display:none">
+          <div class="card-title">At-risk customers <span id="atRiskCount" class="badge badge-red"></span></div>
+          <div style="margin-bottom:12px;display:flex;gap:8px">
+            <input type="text" id="filterCid" placeholder="Filter by ID..." oninput="filterTable()" style="max-width:200px">
+            <select id="filterRisk" onchange="filterTable()">
+              <option value="">All tiers</option>
+              <option>HIGH</option><option>MEDIUM</option><option>LOW</option><option>MINIMAL</option>
+            </select>
+          </div>
+          <div class="table-wrap">
+            <table>
+              <thead><tr><th>Customer ID</th><th>Churn probability</th><th>Risk tier</th><th>Model</th><th>Action</th></tr></thead>
+              <tbody id="atRiskBody"></tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+
+      <!-- STREAM -->
+      <div id="page-stream" class="page" style="display:none">
+        <div class="section-title">Kafka stream simulation</div>
+        <div class="section-sub">Replay customer behavior events. Drift detection fires Layer 2 predictions automatically when a customer crosses the threshold.</div>
+        <div class="row" style="margin-bottom:16px">
+          <div class="metric"><div class="metric-label">Events processed</div><div class="metric-val blue" id="sEvCount">0</div></div>
+          <div class="metric"><div class="metric-label">Drift detections</div><div class="metric-val red" id="sDriftCount">0</div></div>
+          <div class="metric"><div class="metric-label">Layer 2 triggers</div><div class="metric-val" id="sTrigCount" style="color:var(--amber)">0</div></div>
+          <div class="metric"><div class="metric-label">Customers monitored</div><div class="metric-val" id="sCustCount">0</div></div>
+        </div>
+        <div class="card">
+          <div class="card-title">Event log</div>
+          <div style="display:flex;gap:8px;margin-bottom:12px">
+            <button class="btn btn-primary" id="startBtn" onclick="startStream()">▶ Start stream</button>
+            <button class="btn" id="pauseBtn" onclick="pauseStream()" disabled>⏸ Pause</button>
+            <button class="btn" onclick="clearStream()">✕ Clear</button>
+            <span id="streamStatusBadge" class="badge badge-gray" style="margin-left:auto">Idle</span>
+          </div>
+          <div id="driftAlerts" style="margin-bottom:8px"></div>
+          <div class="stream-log" id="streamLog"><div style="color:var(--text3)">Stream idle. Press Start to begin replay.</div></div>
+        </div>
+      </div>
+
+      <!-- METRICS -->
+      <div id="page-metrics" class="page" style="display:none">
+        <div class="section-title">Model metrics</div>
+        <div class="section-sub">Comparative performance of XGBoost and MLP. Champion is selected by AUC-ROC and feeds into the DiCE counterfactual layer.</div>
+        <div id="metricsContent" style="color:var(--text3)">Loading metrics...</div>
+      </div>
+
+      <!-- API -->
+      <div id="page-api" class="page" style="display:none">
+        <div class="section-title">API reference</div>
+        <div class="section-sub">All endpoints are live at <span class="tag" id="apiBaseDisplay">http://localhost:8002</span>. Use any REST client or import into Postman.</div>
+        <div class="row">
+          <div>
+            <div class="card" style="margin-bottom:16px">
+              <div class="card-title">Layer 1 — Ingestion</div>
+              <div class="endpoint-row"><span class="method method-post">POST</span><span class="endpoint-path">/ingest/csv</span><span class="endpoint-desc">Upload CSV → feature store</span></div>
+              <div class="endpoint-row"><span class="method method-post">POST</span><span class="endpoint-path">/stream/event</span><span class="endpoint-desc">Single Kafka event</span></div>
+              <div class="endpoint-row"><span class="method method-post">POST</span><span class="endpoint-path">/stream/batch</span><span class="endpoint-desc">Replay event array</span></div>
+              <div class="endpoint-row"><span class="method method-get">GET</span><span class="endpoint-path">/feature-store</span><span class="endpoint-desc">All customer vectors</span></div>
+              <div class="endpoint-row"><span class="method method-get">GET</span><span class="endpoint-path">/drift-log</span><span class="endpoint-desc">Drift detection history</span></div>
+              <div class="endpoint-row"><span class="method method-get">GET</span><span class="endpoint-path">/event-log</span><span class="endpoint-desc">Raw event stream log</span></div>
+            </div>
+            <div class="card">
+              <div class="card-title">Layer 2 — Prediction</div>
+              <div class="endpoint-row"><span class="method method-post">POST</span><span class="endpoint-path">/train</span><span class="endpoint-desc">Train XGBoost + MLP</span></div>
+              <div class="endpoint-row"><span class="method method-post">POST</span><span class="endpoint-path">/predict/customer</span><span class="endpoint-desc">Single customer prediction</span></div>
+              <div class="endpoint-row"><span class="method method-post">POST</span><span class="endpoint-path">/predict/batch</span><span class="endpoint-desc">Score all customers</span></div>
+              <div class="endpoint-row"><span class="method method-get">GET</span><span class="endpoint-path">/predict/stream-triggers</span><span class="endpoint-desc">Score drift-triggered customers</span></div>
+              <div class="endpoint-row"><span class="method method-post">POST</span><span class="endpoint-path">/explain</span><span class="endpoint-desc">SHAP explanation</span></div>
+              <div class="endpoint-row"><span class="method method-get">GET</span><span class="endpoint-path">/metrics</span><span class="endpoint-desc">Model performance report</span></div>
+              <div class="endpoint-row"><span class="method method-get">GET</span><span class="endpoint-path">/report</span><span class="endpoint-desc">Full pipeline status</span></div>
+            </div>
+          </div>
+          <div>
+            <div class="card" style="margin-bottom:16px">
+              <div class="card-title">Quick test — curl</div>
+              <pre style="font-family:'JetBrains Mono',monospace;font-size:11px;color:var(--text2);line-height:1.7;overflow-x:auto"># Upload + ingest CSV
+curl -X POST http://localhost:8002/ingest/csv \
+  -F "file=@telco_demo.csv"
+
+# Train both models
+curl -X POST http://localhost:8002/train \
+  -F "file=@telco_demo.csv"
+
+# Predict single customer
+curl -X POST http://localhost:8002/predict/customer \
+  -H "Content-Type: application/json" \
+  -d '{"customer_id":"CUST-00003"}'
+
+# Batch score all
+curl -X POST http://localhost:8002/predict/batch \
+  -H "Content-Type: application/json" \
+  -d '{}'
+
+# SHAP explanation
+curl -X POST http://localhost:8002/explain \
+  -H "Content-Type: application/json" \
+  -d '{"customer_id":"CUST-00003"}'
+
+# Kafka event
+curl -X POST http://localhost:8002/stream/event \
+  -H "Content-Type: application/json" \
+  -d '{
+    "event_id":"EVT-001",
+    "customer_id":"CUST-00001",
+    "event_type":"payment_failure",
+    "timestamp":"2026-04-26T10:00:00",
+    "metadata":{}
+  }'</pre>
+            </div>
+            <div class="card">
+              <div class="card-title">Interactive docs</div>
+              <p style="font-size:13px;color:var(--text2);margin-bottom:14px">FastAPI auto-generates Swagger UI and ReDoc. Test all endpoints directly in your browser.</p>
+              <a href="http://localhost:8002/docs" target="_blank" class="btn" style="display:inline-flex;text-decoration:none;margin-bottom:8px;width:100%;justify-content:center">⧉ Open Swagger UI</a>
+              <a href="http://localhost:8002/redoc" target="_blank" class="btn" style="display:inline-flex;text-decoration:none;width:100%;justify-content:center">⧉ Open ReDoc</a>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+<script>
+const API = 'http://localhost:8002';
+let allPredictions = [];
+
+// ── Navigation ──────────────────────────────
+const titles = {ingest:'Data ingestion',train:'Train models',predict:'Predict churn',stream:'Kafka stream',metrics:'Model metrics',api:'API reference'};
+function show(page) {
+  document.querySelectorAll('.page').forEach(p => p.style.display='none');
+  document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
+  document.getElementById('page-'+page).style.display='block';
+  document.getElementById('pageTitle').textContent = titles[page];
+  const items = document.querySelectorAll('.nav-item');
+  [...items].find(el => el.getAttribute('onclick')===`show('${page}')`)?.classList.add('active');
+  if(page==='metrics') loadMetrics();
+  if(page==='predict') checkEngineStatus();
+}
+
+// ── API Health ──────────────────────────────
+async function checkHealth() {
+  try {
+    const r = await fetch(API+'/');
+    const d = await r.json();
+    document.getElementById('statusText').textContent = 'API connected';
+    document.querySelector('.status-dot').style.background = 'var(--green)';
+    if(d.engine_trained) {
+      document.getElementById('engineBadge').textContent = `Champion: ${d.champion_model}`;
+      document.getElementById('engineBadge').className = 'badge badge-blue';
+    }
+    updatePipelineStatus(d);
+  } catch(e) {
+    document.getElementById('statusText').textContent = 'API offline';
+    document.querySelector('.status-dot').style.background = 'var(--red)';
+    document.querySelector('.status-dot').style.animation = 'none';
+  }
+}
+
+function updatePipelineStatus(d) {
+  document.getElementById('pipelineStatus').innerHTML = `
+    <div style="display:grid;gap:10px">
+      <div style="display:flex;justify-content:space-between;font-size:13px;padding:8px 0;border-bottom:1px solid var(--border)">
+        <span style="color:var(--text2)">API version</span><span>${d.system||'Churn Retention AI'}</span>
+      </div>
+      <div style="display:flex;justify-content:space-between;font-size:13px;padding:8px 0;border-bottom:1px solid var(--border)">
+        <span style="color:var(--text2)">Layer 1 fitted</span>
+        <span class="${d.pipeline_fitted?'badge badge-green':'badge badge-amber'}">${d.pipeline_fitted?'Ready':'Not fitted'}</span>
+      </div>
+      <div style="display:flex;justify-content:space-between;font-size:13px;padding:8px 0;border-bottom:1px solid var(--border)">
+        <span style="color:var(--text2)">Layer 2 trained</span>
+        <span class="${d.engine_trained?'badge badge-green':'badge badge-amber'}">${d.engine_trained?'Ready':'Not trained'}</span>
+      </div>
+      <div style="display:flex;justify-content:space-between;font-size:13px;padding:8px 0">
+        <span style="color:var(--text2)">Champion model</span>
+        <span class="badge badge-blue">${d.champion_model||'—'}</span>
+      </div>
+    </div>`;
+}
+
+// ── CSV Upload ──────────────────────────────
+function dragOver(e) { e.preventDefault(); document.getElementById('dropZone').classList.add('drag'); }
+function dragLeave(e) { document.getElementById('dropZone').classList.remove('drag'); }
+function handleDrop(e) { e.preventDefault(); document.getElementById('dropZone').classList.remove('drag'); const f=e.dataTransfer.files[0]; if(f) uploadCsv(f); }
+function handleCsvUpload(e) { uploadCsv(e.target.files[0]); }
+
+async function uploadCsv(file) {
+  const el = document.getElementById('uploadResult');
+  el.innerHTML = `<div class="alert alert-info"><span class="spinner"></span> Ingesting ${file.name}...</div>`;
+  const fd = new FormData(); fd.append('file', file);
+  try {
+    const r = await fetch(API+'/ingest/csv', {method:'POST', body:fd});
+    const d = await r.json();
+    if(d.status==='success') {
+      el.innerHTML = `
+        <div class="alert alert-success">✓ Ingested ${d.summary.total_records} records — ${d.summary.churn_rate}% churn rate — ${d.summary.feature_count} features</div>
+        <div class="card-grid cols-3 gap-16" style="margin-top:12px">
+          ${d.preview.map(p=>`
+            <div style="background:var(--surface2);border-radius:6px;padding:10px;font-size:12px">
+              <div style="font-weight:600;margin-bottom:4px">${p.customerID}</div>
+              <div style="color:var(--text2)">Label: <span class="${p.churn_label?'badge badge-red':'badge badge-green'}">${p.churn_label?'Churn':'Retain'}</span></div>
+            </div>`).join('')}
+        </div>`;
+      checkHealth();
+    } else {
+      el.innerHTML = `<div class="alert alert-error">Error: ${JSON.stringify(d)}</div>`;
+    }
+  } catch(e) { el.innerHTML = `<div class="alert alert-error">Could not reach API: ${e.message}</div>`; }
+}
+
+// ── Kafka event ──────────────────────────────
+async function sendKafkaEvent() {
+  const cid = document.getElementById('evCustomer').value;
+  const typ = document.getElementById('evType').value;
+  const el = document.getElementById('kafkaEventResult');
+  const body = {event_id:`EVT-${Date.now()}`,customer_id:cid,event_type:typ,timestamp:new Date().toISOString(),metadata:{}};
+  try {
+    const r = await fetch(API+'/stream/event',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(body)});
+    const d = await r.json();
+    const res = d.result;
+    el.innerHTML = `
+      <div class="alert ${res.drift_detected?'alert-amber':'alert-success'}">
+        ${res.drift_detected?'⚠ Drift detected':'✓ Event logged'} — drift score: ${res.drift_score.toFixed(2)} — signals: ${res.churn_signal_count}
+      </div>
+      ${d.auto_prediction?`<div class="alert alert-info">Layer 2 auto-triggered → <strong>${d.auto_prediction.churn_label}</strong> (${(d.auto_prediction.churn_probability*100).toFixed(0)}%)</div>`:''}`;
+  } catch(e) { el.innerHTML = `<div class="alert alert-error">${e.message}</div>`; }
+}
+
+// ── Train ──────────────────────────────
+async function handleTrainUpload(e) { trainWithFile(e.target.files[0]); }
+
+async function trainWithFile(file) {
+  const el = document.getElementById('trainResult');
+  const mc = document.getElementById('trainMetrics');
+  el.innerHTML = `<div class="alert alert-info"><span class="spinner"></span> Training XGBoost + MLP... (may take 20–40s)</div>`;
+  const fd = new FormData(); fd.append('file', file);
+  try {
+    const r = await fetch(API+'/train',{method:'POST',body:fd});
+    const d = await r.json();
+    if(d.champion) {
+      el.innerHTML = `<div class="alert alert-success">✓ Training complete — champion: <strong>${d.champion.toUpperCase()}</strong> — CV AUC: ${d.cv_auc}</div>`;
+      mc.style.display='block';
+      mc.querySelector('#trainMetricsContent').innerHTML = renderTrainReport(d);
+      document.getElementById('engineBadge').textContent=`Champion: ${d.champion}`;
+      document.getElementById('engineBadge').className='badge badge-blue';
+    } else {
+      el.innerHTML = `<div class="alert alert-error">${JSON.stringify(d)}</div>`;
+    }
+  } catch(e) { el.innerHTML = `<div class="alert alert-error">${e.message}</div>`; }
+}
+
+function renderTrainReport(d) {
+  const xgb=d.xgboost, mlp=d.mlp;
+  const metrics=['auc_roc','f1_score','accuracy','precision','recall'];
+  return `
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:16px">
+      ${[xgb,mlp].map(m=>`
+        <div style="border:1px solid ${m.model==='XGBoost'?'rgba(79,124,255,0.4)':'var(--border)'};border-radius:8px;padding:14px">
+          <div style="font-size:13px;font-weight:600;margin-bottom:10px;display:flex;align-items:center;gap:8px">
+            ${m.model} ${m.model==='XGBoost'?'<span class="badge badge-blue">champion</span>':''}
+          </div>
+          ${metrics.map(k=>`
+            <div style="display:flex;justify-content:space-between;font-size:12px;padding:4px 0;border-bottom:1px solid var(--border)">
+              <span style="color:var(--text2)">${k.replace('_',' ')}</span>
+              <span style="font-weight:500">${m[k]}</span>
+            </div>`).join('')}
+        </div>`).join('')}
+    </div>
+    <div style="font-size:13px;font-weight:600;margin-bottom:10px">Top SHAP features</div>
+    ${d.shap_top_features.map(f=>`
+      <div class="shap-bar">
+        <div class="shap-label">${f.feature}</div>
+        <div class="shap-track"><div class="shap-fill" style="width:${(f.mean_abs_shap/d.shap_top_features[0].mean_abs_shap*100).toFixed(1)}%"></div></div>
+        <div class="shap-val">${f.mean_abs_shap.toFixed(3)}</div>
+      </div>`).join('')}`;
+}
+
+// ── Predict ──────────────────────────────
+async function checkEngineStatus() {
+  try {
+    const r = await fetch(API+'/');
+    const d = await r.json();
+    if(!d.engine_trained) {
+      document.getElementById('singlePredResult').innerHTML = `<div class="alert alert-amber">Engine not trained yet. Go to Train models first.</div>`;
+    }
+  } catch(e){}
+}
+
+async function predictSingle() {
+  const cid = document.getElementById('predictCid').value;
+  const model = document.getElementById('predictModel').value;
+  const el = document.getElementById('singlePredResult');
+  el.innerHTML = `<div class="alert alert-info"><span class="spinner"></span> Predicting...</div>`;
+  try {
+    const r = await fetch(API+'/predict/customer',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({customer_id:cid,model})});
+    const d = await r.json();
+    if(d.detail) { el.innerHTML=`<div class="alert alert-error">${d.detail}</div>`; return; }
+    const pct = (d.churn_probability*100).toFixed(1);
+    el.innerHTML = `
+      <div style="border:1px solid var(--border);border-radius:8px;padding:14px;margin-top:4px">
+        <div style="display:flex;align-items:center;gap:10px;margin-bottom:12px">
+          <span style="font-size:20px;font-weight:600;color:${d.churn_predicted?'var(--red)':'var(--green)'}">${pct}%</span>
+          <span class="${riskClass(d.risk_tier)} badge">${d.risk_tier}</span>
+          <span class="${d.churn_predicted?'badge badge-red':'badge badge-green'}">${d.churn_label}</span>
+        </div>
+        <div style="margin-bottom:8px;font-size:12px;color:var(--text3)">via ${d.model_used}</div>
+        <div class="prog-track" style="margin-bottom:14px"><div class="prog-fill" style="width:${pct}%;background:${d.churn_predicted?'var(--red)':'var(--green)'}"></div></div>
+        ${d.explanation?`
+          <div style="font-size:12px;font-weight:600;margin-bottom:8px;color:var(--text2)">Top churn drivers (SHAP)</div>
+          ${d.explanation.map(ex=>`
+            <div style="display:flex;justify-content:space-between;font-size:12px;padding:4px 0;border-bottom:1px solid var(--border)">
+              <span style="color:var(--text2)">${ex.feature}</span>
+              <span style="color:${ex.direction==='increases_churn'?'var(--red)':'var(--green)'}">
+                ${ex.direction==='increases_churn'?'▲':'▼'} ${ex.shap_value.toFixed(4)}
+              </span>
+            </div>`).join('')}`:''}
+      </div>`;
+  } catch(e) { el.innerHTML=`<div class="alert alert-error">${e.message}</div>`; }
+}
+
+function riskClass(r){return{HIGH:'badge-red',MEDIUM:'badge-amber',LOW:'badge-green',MINIMAL:'badge-gray'}[r]||'badge-gray';}
+
+async function batchPredict() {
+  document.getElementById('batchSpinner').style.display='inline-block';
+  document.getElementById('batchSummary').innerHTML='';
+  try {
+    const r = await fetch(API+'/predict/batch',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({})});
+    const d = await r.json();
+    document.getElementById('batchSpinner').style.display='none';
+    if(d.detail) { document.getElementById('batchSummary').innerHTML=`<div class="alert alert-error">${d.detail}</div>`; return; }
+    document.getElementById('batchSummary').innerHTML = `
+      <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-top:4px">
+        <div class="metric"><div class="metric-label">Scored</div><div class="metric-val">${d.total_scored}</div></div>
+        <div class="metric"><div class="metric-label">At risk</div><div class="metric-val red">${d.churn_predicted_count}</div></div>
+        <div class="metric"><div class="metric-label">Churn rate</div><div class="metric-val">${d.churn_rate}%</div></div>
+      </div>`;
+    allPredictions = d.at_risk_customers || [];
+    if(allPredictions.length){
+      document.getElementById('atRiskCard').style.display='block';
+      document.getElementById('atRiskCount').textContent = d.churn_predicted_count+' customers';
+      renderAtRiskTable(allPredictions);
+    }
+  } catch(e) { document.getElementById('batchSpinner').style.display='none'; document.getElementById('batchSummary').innerHTML=`<div class="alert alert-error">${e.message}</div>`; }
+}
+
+function renderAtRiskTable(rows) {
+  document.getElementById('atRiskBody').innerHTML = rows.map(c=>`
+    <tr>
+      <td style="font-weight:500">${c.customer_id}</td>
+      <td><div style="display:flex;align-items:center;gap:8px">
+        <div style="width:60px;height:5px;background:var(--surface2);border-radius:3px;overflow:hidden">
+          <div style="width:${(c.churn_probability*100).toFixed(0)}%;height:100%;background:var(--red)"></div>
+        </div>
+        <span style="font-size:12px">${(c.churn_probability*100).toFixed(1)}%</span>
+      </div></td>
+      <td><span class="badge ${riskClass(c.risk_tier)}">${c.risk_tier}</span></td>
+      <td><span class="tag">${c.model_used}</span></td>
+      <td><button class="btn btn-sm" onclick="document.getElementById('predictCid').value='${c.customer_id}';show('predict')">Explain ↗</button></td>
+    </tr>`).join('');
+}
+
+function filterTable() {
+  const q = document.getElementById('filterCid').value.toLowerCase();
+  const rf = document.getElementById('filterRisk').value;
+  const filtered = allPredictions.filter(c => (!q||c.customer_id.toLowerCase().includes(q))&&(!rf||c.risk_tier===rf));
+  renderAtRiskTable(filtered);
+}
+
+// ── Stream ──────────────────────────────
+const STREAM_EVENTS=[
+  {type:'payment_failure',cid:'CUST-00003',churn:true},{type:'app_login',cid:'CUST-00100',churn:false},
+  {type:'service_complaint',cid:'CUST-00011',churn:true},{type:'plan_downgrade',cid:'CUST-00019',churn:true},
+  {type:'plan_upgrade',cid:'CUST-00200',churn:false},{type:'call_drop',cid:'CUST-00027',churn:true},
+  {type:'data_usage_drop',cid:'CUST-00031',churn:true},{type:'app_login',cid:'CUST-00150',churn:false},
+  {type:'support_ticket',cid:'CUST-00041',churn:true},{type:'service_complaint',cid:'CUST-00047',churn:true},
+  {type:'payment_failure',cid:'CUST-00003',churn:true},{type:'plan_downgrade',cid:'CUST-00011',churn:true},
+];
+const CHURN_EVS=new Set(['payment_failure','service_complaint','plan_downgrade','call_drop','data_usage_drop','support_ticket']);
+let streamTimer=null,evIdx=0,evCount=0,driftCount=0,trigCount=0,custSet=new Set();
+const custSignals={};
+
+function ts(){const n=new Date();return`${String(n.getHours()).padStart(2,'0')}:${String(n.getMinutes()).padStart(2,'0')}:${String(n.getSeconds()).padStart(2,'0')}`}
+
+function startStream(){
+  document.getElementById('startBtn').disabled=true;
+  document.getElementById('pauseBtn').disabled=false;
+  document.getElementById('streamStatusBadge').textContent='Streaming';
+  document.getElementById('streamStatusBadge').className='badge badge-green';
+  streamTimer=setInterval(()=>{
+    const ev=STREAM_EVENTS[evIdx%STREAM_EVENTS.length];
+    evIdx++;evCount++;custSet.add(ev.cid);
+    document.getElementById('sEvCount').textContent=evCount;
+    document.getElementById('sCustCount').textContent=custSet.size;
+    const isChurn=CHURN_EVS.has(ev.type);
+    custSignals[ev.cid]=(custSignals[ev.cid]||0)+(isChurn?1:0);
+    const drift=custSignals[ev.cid]>=2;
+    if(drift&&custSignals[ev.cid]===2){
+      driftCount++;trigCount++;
+      document.getElementById('sDriftCount').textContent=driftCount;
+      document.getElementById('sTrigCount').textContent=trigCount;
+      const a=document.createElement('div');
+      a.className='alert alert-amber';
+      a.innerHTML=`⚠ Drift threshold crossed — <strong>${ev.cid}</strong> — Layer 2 prediction triggered`;
+      const da=document.getElementById('driftAlerts');
+      da.appendChild(a);
+      if(da.children.length>3)da.removeChild(da.firstChild);
+      setTimeout(()=>a.remove(),8000);
+    }
+    const log=document.getElementById('streamLog');
+    if(log.children[0]?.style?.color)log.innerHTML='';
+    const line=document.createElement('div');
+    line.className='log-line';
+    const cls=isChurn?'churn':ev.type.includes('login')||ev.type.includes('upgrade')?'normal':'neutral';
+    line.innerHTML=`<span class="log-ts">${ts()}</span><span class="log-ev ${cls}">${ev.type}</span><span style="color:var(--text2)">${ev.cid}</span>${drift&&custSignals[ev.cid]===2?'<span class="log-trigger">DRIFT TRIGGER ⚡</span>':''}`;
+    log.appendChild(line);
+    log.scrollTop=log.scrollHeight;
+    if(log.children.length>60)log.removeChild(log.firstChild);
+  },500);
+}
+
+function pauseStream(){
+  clearInterval(streamTimer);
+  document.getElementById('startBtn').disabled=false;
+  document.getElementById('pauseBtn').disabled=true;
+  document.getElementById('streamStatusBadge').textContent='Paused';
+  document.getElementById('streamStatusBadge').className='badge badge-amber';
+}
+
+function clearStream(){
+  pauseStream();
+  evCount=driftCount=trigCount=evIdx=0;custSet.clear();Object.keys(custSignals).forEach(k=>delete custSignals[k]);
+  ['sEvCount','sDriftCount','sTrigCount'].forEach(id=>document.getElementById(id).textContent='0');
+  document.getElementById('sCustCount').textContent='0';
+  document.getElementById('streamLog').innerHTML='<div style="color:var(--text3)">Cleared. Press Start to begin.</div>';
+  document.getElementById('driftAlerts').innerHTML='';
+  document.getElementById('streamStatusBadge').textContent='Idle';
+  document.getElementById('streamStatusBadge').className='badge badge-gray';
+}
+
+// ── Metrics ──────────────────────────────
+async function loadMetrics(){
+  const el=document.getElementById('metricsContent');
+  try {
+    const r=await fetch(API+'/metrics');
+    if(r.status===400){el.innerHTML=`<div class="alert alert-amber">Engine not trained yet. Go to Train models first.</div>`;return;}
+    const d=await r.json();
+    el.innerHTML=`
+      <div class="card-grid cols-4 gap-16" style="margin-bottom:20px">
+        <div class="metric"><div class="metric-label">Champion</div><div class="metric-val blue" style="font-size:18px">${d.champion?.toUpperCase()}</div></div>
+        <div class="metric"><div class="metric-label">CV AUC mean</div><div class="metric-val green">${d.cv_auc_mean}</div></div>
+        <div class="metric"><div class="metric-label">CV AUC std</div><div class="metric-val">${d.cv_auc_std}</div></div>
+        <div class="metric"><div class="metric-label">SMOTE</div><div class="metric-val ${d.smote_applied?'green':''}">${d.smote_applied?'Applied':'No'}</div></div>
+      </div>
+      <div class="row" style="margin-bottom:20px">
+        ${[d.xgboost,d.mlp].map(m=>`
+          <div class="card">
+            <div class="card-title">${m.model} ${m.model==='XGBoost'&&d.champion==='xgboost'?'<span class="badge badge-blue">champion</span>':''}</div>
+            ${['auc_roc','f1_score','accuracy','precision','recall'].map(k=>`
+              <div style="display:flex;justify-content:space-between;font-size:13px;padding:7px 0;border-bottom:1px solid var(--border)">
+                <span style="color:var(--text2)">${k.replace('_',' ')}</span>
+                <span style="font-weight:500">${m[k]||'—'}</span>
+              </div>`).join('')}
+          </div>`).join('')}
+      </div>
+      <div class="card">
+        <div class="card-title">SHAP feature importances</div>
+        ${(d.shap_top_features||[]).map(f=>`
+          <div class="shap-bar">
+            <div class="shap-label">${f.feature}</div>
+            <div class="shap-track"><div class="shap-fill" style="width:${(f.mean_abs_shap/(d.shap_top_features[0].mean_abs_shap)*100).toFixed(1)}%"></div></div>
+            <div class="shap-val">${f.mean_abs_shap.toFixed(3)}</div>
+          </div>`).join('')}
+      </div>`;
+  } catch(e){el.innerHTML=`<div class="alert alert-error">${e.message}</div>`;}
+}
+
+checkHealth();
+setInterval(checkHealth, 30000);
+</script>
+</body>
+</html>
