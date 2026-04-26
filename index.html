@@ -183,7 +183,7 @@
     <div class="topnav">
       <div class="topnav-title" id="pageTitle">Data ingestion</div>
       <span id="engineBadge" class="badge badge-gray">Engine not trained</span>
-      <span id="apiUrl" class="tag">http://localhost:8002</span>
+      <span id="apiUrl" class="tag">https://churnguard-ai-1x3p.onrender.com</span>
     </div>
     <div class="content">
 
@@ -342,7 +342,7 @@
       <!-- API -->
       <div id="page-api" class="page" style="display:none">
         <div class="section-title">API reference</div>
-        <div class="section-sub">All endpoints are live at <span class="tag" id="apiBaseDisplay">http://localhost:8002</span>. Use any REST client or import into Postman.</div>
+        <div class="section-sub">All endpoints are live at <span class="tag" id="apiBaseDisplay">https://churnguard-ai-1x3p.onrender.com</span>. Use any REST client or import into Postman.</div>
         <div class="row">
           <div>
             <div class="card" style="margin-bottom:16px">
@@ -369,30 +369,30 @@
             <div class="card" style="margin-bottom:16px">
               <div class="card-title">Quick test — curl</div>
               <pre style="font-family:'JetBrains Mono',monospace;font-size:11px;color:var(--text2);line-height:1.7;overflow-x:auto"># Upload + ingest CSV
-curl -X POST http://localhost:8002/ingest/csv \
+curl -X POST https://churnguard-ai-1x3p.onrender.com/ingest/csv \
   -F "file=@telco_demo.csv"
 
 # Train both models
-curl -X POST http://localhost:8002/train \
+curl -X POST https://churnguard-ai-1x3p.onrender.com/train \
   -F "file=@telco_demo.csv"
 
 # Predict single customer
-curl -X POST http://localhost:8002/predict/customer \
+curl -X POST https://churnguard-ai-1x3p.onrender.com/predict/customer \
   -H "Content-Type: application/json" \
   -d '{"customer_id":"CUST-00003"}'
 
 # Batch score all
-curl -X POST http://localhost:8002/predict/batch \
+curl -X POST https://churnguard-ai-1x3p.onrender.com/predict/batch \
   -H "Content-Type: application/json" \
   -d '{}'
 
 # SHAP explanation
-curl -X POST http://localhost:8002/explain \
+curl -X POST https://churnguard-ai-1x3p.onrender.com/explain \
   -H "Content-Type: application/json" \
   -d '{"customer_id":"CUST-00003"}'
 
 # Kafka event
-curl -X POST http://localhost:8002/stream/event \
+curl -X POST https://churnguard-ai-1x3p.onrender.com/stream/event \
   -H "Content-Type: application/json" \
   -d '{
     "event_id":"EVT-001",
@@ -405,8 +405,8 @@ curl -X POST http://localhost:8002/stream/event \
             <div class="card">
               <div class="card-title">Interactive docs</div>
               <p style="font-size:13px;color:var(--text2);margin-bottom:14px">FastAPI auto-generates Swagger UI and ReDoc. Test all endpoints directly in your browser.</p>
-              <a href="http://localhost:8002/docs" target="_blank" class="btn" style="display:inline-flex;text-decoration:none;margin-bottom:8px;width:100%;justify-content:center">⧉ Open Swagger UI</a>
-              <a href="http://localhost:8002/redoc" target="_blank" class="btn" style="display:inline-flex;text-decoration:none;width:100%;justify-content:center">⧉ Open ReDoc</a>
+              <a href="https://churnguard-ai-1x3p.onrender.com" target="_blank" class="btn" style="display:inline-flex;text-decoration:none;margin-bottom:8px;width:100%;justify-content:center">⧉ Open Swagger UI</a>
+              <a href="https://churnguard-ai-1x3p.onrender.com" target="_blank" class="btn" style="display:inline-flex;text-decoration:none;width:100%;justify-content:center">⧉ Open ReDoc</a>
             </div>
           </div>
         </div>
