@@ -5,3 +5,4 @@ numpy
 python-multipart
 scikit-learn
 xgboost
+imbalanced-learn
