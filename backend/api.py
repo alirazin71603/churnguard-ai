@@ -4,16 +4,16 @@ Endpoints: /ingest/csv, /stream/event, /stream/batch, /report, /feature-store
            /train, /predict/customer, /predict/batch, /predict/stream-triggers
            /explain, /metrics
 """
-from fastapi import FastAPI, UploadFile, File, HTTPException
-from fastapi.middleware.cors import CORSMiddleware
-from pydantic import BaseModel
-from typing import List, Optional
+import os
+import sys
 import pandas as pd
 import numpy as np
 import json
 import io
-import sys
-import os
+from typing import List, Optional
+from pydantic import BaseModel
+from fastapi import FastAPI, UploadFile, File, HTTPException
+from fastapi.middleware.cors import CORSMiddleware  # The correct path
 
 sys.path.insert(0, os.path.dirname(__file__))
 from pipeline import Layer1Pipeline
