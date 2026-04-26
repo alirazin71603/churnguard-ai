@@ -4,7 +4,6 @@ Endpoints: /ingest/csv, /stream/event, /stream/batch, /report, /feature-store
            /train, /predict/customer, /predict/batch, /predict/stream-triggers
            /explain, /metrics
 """
-from fastapi.middleware.cors import CORSMiddleware
 from fastapi import FastAPI, UploadFile, File, HTTPException
 from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel
@@ -25,19 +24,15 @@ app = FastAPI(
     description="Real-Time Ingestion + Dual Prediction Engine",
     version="2.0.0"
 )
+
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["*"],  # This allows any website to connect (fixes the GitHub Pages block)
+    allow_origins=["*"],  # Allows GitHub Pages to connect
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
 )
-app.add_middleware(
-    CORSMiddleware,
-    allow_origins=["*"],
-    allow_methods=["*"],
-    allow_headers=["*"],
-)
+
 
 pipeline = Layer1Pipeline()
 engine = DualPredictionEngine()
